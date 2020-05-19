@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package model;
+
+option java_package = "org.oppia.app.model";
+option java_multiple_files = true;
+
+message EventLog {
+  EventType event_type = 1;
+  int64 timestamp = 2;
+  ViewType view_name = 3;
+  string title = 5;
+  Priority priority = 6;
+  ViewType parent_view = 7;
+  string topic_id = 8;
+  string story_id = 9;
+  int32 position = 10;
+}
+
+enum EventType{
+  EVENT_TYPE_VIEW = 0;
+  EVENT_TYPE_CLICK = 1;
+}
+
+enum Priority{
+  PRIORITY_HIGH = 0;
+  PRIORITY_MEDIUM = 1;
+  PRIORITY_LOW = 2;
+}
+
+enum ViewType{
+  PROFILE_ACTIVITY = 0;
+  HOME_ACTIVITY = 1;
+  INFO_TOPIC_FRAGMENT = 2;
+  LESSONS_TOPIC_FRAGMENT = 3;
+  PRACTICE_TOPIC_FRAGMENT = 4;
+  REVISION_TOPIC_FRAGMENT = 5;
+  STORY_ACTIVITY= 6;
+  REVISION_ACTIVITY = 7;
+  EXPLORATION_ACTIVITY = 8;
+}
+
+
