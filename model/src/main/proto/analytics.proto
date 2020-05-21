@@ -6,20 +6,28 @@ option java_package = "org.oppia.app.model";
 option java_multiple_files = true;
 
 message EventLog {
-  EventType event_type = 1;
-  int64 timestamp = 2;
-  EventAction action_name = 3;
-  string title = 4;
-  Priority priority = 5;
-  Context context = 6;
-  int32 position = 7;
+  int64 timestamp = 1;
+  EventAction action_name = 2;
+  Priority priority = 3;
+  Context context = 4;
 
   message Context{
+    oneof activity_context{
+      ExplorationContext exploration_context =1;
+      QuestionContext question_context =2;
+    }
+  }
+  message ExplorationContext{
     string topic_id = 1;
     string story_id = 2;
     string exploration_id = 3;
-    string question_id = 4;
   }
+
+  message QuestionContext{
+    string topic_id = 1;
+    string question_id = 2;
+  }
+
   enum EventAction{
     OPEN_PROFILE = 0;
     OPEN_HOME = 1;
@@ -30,15 +38,15 @@ message EventLog {
     OPEN_STORY_ACTIVITY= 6;
     OPEN_REVISION_ACTIVITY = 7;
     OPEN_EXPLORATION_ACTIVITY = 8;
-  }
-  enum EventType{
-    EVENT_TYPE_VIEW = 0;
-    EVENT_TYPE_CLICK = 1;
+    CLICK_AUDIO_BUTTON = 9;
+    CLICK_SUBMIT_BUTTON = 10;
+    CLICK_RECENTLY_PLAYED = 11;
+    CLICK_NEW_TOPIC = 12;
   }
 
   enum Priority{
-    PRIORITY_HIGH = 0;
-    PRIORITY_LOW = 1;
+    ESSENTIAL = 0;
+    OPTIONAL = 1;
   }
 
 }
