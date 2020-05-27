@@ -3,6 +3,8 @@ package org.oppia.util.system
 import android.annotation.SuppressLint
 import android.os.SystemClock
 import androidx.annotation.VisibleForTesting
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.Calendar
@@ -15,6 +17,8 @@ import javax.inject.Singleton
 @Singleton
 class OppiaClock @Inject constructor() {
   private var testTimeMs: Long? = null
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   fun getElapsedRealtimeMs(): Long {
     return SystemClock.elapsedRealtime()
@@ -35,6 +39,7 @@ class OppiaClock @Inject constructor() {
       date = format.parse(dtStart)
       currentTimeMsNew = getLocalToUTCDate(date)
     } catch (e: ParseException) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       e.printStackTrace()
     }
     testTimeMs = currentTimeMsNew

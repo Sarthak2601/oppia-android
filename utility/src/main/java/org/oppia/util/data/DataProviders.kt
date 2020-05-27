@@ -4,6 +4,7 @@ import androidx.annotation.GuardedBy
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import java.util.concurrent.locks.ReentrantLock
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -12,6 +13,7 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.util.threading.BackgroundDispatcher
 
 /**
@@ -25,6 +27,9 @@ class DataProviders @Inject constructor(
   @BackgroundDispatcher private val backgroundDispatcher: CoroutineDispatcher,
   private val asyncDataSubscriptionManager: AsyncDataSubscriptionManager
 ) {
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
+
   /**
    * Returns a new [DataProvider] that applies the specified function each time new data is available to it, and
    * provides it to its own subscribers.
@@ -47,6 +52,7 @@ class DataProviders @Inject constructor(
         return try {
           dataProvider.retrieveData().transform(function)
         } catch (t: Throwable) {
+          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
           AsyncResult.failed(t)
         }
       }
@@ -102,6 +108,7 @@ class DataProviders @Inject constructor(
         return try {
           dataProvider1.retrieveData().combineWith(dataProvider2.retrieveData(), function)
         } catch (t: Throwable) {
+          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
           AsyncResult.failed(t)
         }
       }
@@ -151,6 +158,7 @@ class DataProviders @Inject constructor(
         return try {
           AsyncResult.success(loadFromMemory())
         } catch (t: Throwable) {
+          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
           AsyncResult.failed(t)
         }
       }

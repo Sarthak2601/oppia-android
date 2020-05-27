@@ -1,5 +1,7 @@
 package org.oppia.util.system
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
@@ -10,6 +12,8 @@ import javax.inject.Singleton
 /** Utility to format date to text or parse text to date. */
 @Singleton
 class OppiaDateTimeFormatter @Inject constructor() {
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   companion object {
     const val DD_MMM_YYYY = "dd MMMM yyyy"
@@ -25,6 +29,7 @@ class OppiaDateTimeFormatter @Inject constructor() {
       val dateTime = Date(timestamp)
       sdf.format(dateTime)
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       e.toString()
     }
   }
