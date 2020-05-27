@@ -1,4 +1,4 @@
-package org.oppia.domain.firebase
+package org.oppia.domain.firebase.crashlytics
 
 import java.lang.Exception
 import com.google.firebase.crashlytics.FirebaseCrashlytics
@@ -7,7 +7,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 class CrashlyticsWrapper {
 
   /** Logs a custom non-fatal exception to Firebase Crashlytics */
-  fun logException(exception: Exception, logMessage: String, firebaseCrashlytics: FirebaseCrashlytics ) {
+  fun logException(exception: Exception, firebaseCrashlytics: FirebaseCrashlytics ) {
     firebaseCrashlytics.recordException(exception)
   }
 

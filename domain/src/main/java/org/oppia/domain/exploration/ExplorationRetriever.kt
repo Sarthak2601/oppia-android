@@ -1,8 +1,10 @@
 package org.oppia.domain.exploration
 
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.json.JSONObject
 import org.oppia.app.model.Exploration
 import org.oppia.app.model.State
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.topic.FRACTIONS_EXPLORATION_ID_0
 import org.oppia.domain.topic.FRACTIONS_EXPLORATION_ID_1
 import org.oppia.domain.topic.RATIOS_EXPLORATION_ID_0
@@ -27,6 +29,9 @@ class ExplorationRetriever @Inject constructor(
   private val jsonAssetRetriever: JsonAssetRetriever,
   private val stateRetriever: StateRetriever
 ) {
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
+
   // TODO(#169): Force callers of this method on a background thread.
   /** Loads and returns an exploration for the specified exploration ID, or fails. */
   internal fun loadExploration(explorationId: String): Exploration {
@@ -58,6 +63,7 @@ class ExplorationRetriever @Inject constructor(
         .putAllStates(createStatesFromJsonObject(explorationObject.getJSONObject("states")))
         .build()
     } catch (e: IOException) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       throw(Throwable("Failed to load and parse the json asset file. %s", e))
     }
   }

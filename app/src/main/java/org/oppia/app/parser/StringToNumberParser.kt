@@ -2,12 +2,16 @@ package org.oppia.app.parser
 
 import android.content.Context
 import androidx.annotation.StringRes
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.oppia.app.R
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.util.normalizeWhitespace
 
 /** This class contains methods that help to parse string to number, check realtime and submit time errors. */
 class StringToNumberParser {
   private val validCharsRegex = """^[\d\s.-]+$""".toRegex()
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /**
    * Returns a [NumericInputParsingError] for obvious incorrect number formatting issues for the specified raw text, or
@@ -44,6 +48,7 @@ class StringToNumberParser {
       text.toDouble()
       NumericInputParsingError.VALID
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       NumericInputParsingError.INVALID_FORMAT
     }
   }

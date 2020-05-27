@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import org.oppia.app.R
 import org.oppia.app.databinding.PinPasswordActivityBinding
@@ -18,6 +19,7 @@ import org.oppia.app.home.HomeActivity
 import org.oppia.app.model.ProfileId
 import org.oppia.app.utility.LifecycleSafeTimerFactory
 import org.oppia.app.viewmodel.ViewModelProvider
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.profile.ProfileManagementController
 import org.oppia.util.statusbar.StatusBarColor
 import javax.inject.Inject
@@ -37,6 +39,8 @@ class PinPasswordActivityPresenter @Inject constructor(
   }
   private var profileId = -1
   private lateinit var alertDialog: AlertDialog
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   @ExperimentalCoroutinesApi
   fun handleOnCreate() {
@@ -130,6 +134,7 @@ class PinPasswordActivityPresenter @Inject constructor(
         try {
           activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + activity.packageName)))
         } catch (e: ActivityNotFoundException) {
+          crashlyticsWrapper.logException(e, firebaseCrashlytics)
           activity.startActivity(
             Intent(
               Intent.ACTION_VIEW,

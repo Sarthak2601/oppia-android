@@ -2,6 +2,7 @@ package org.oppia.domain.question
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.oppia.app.model.AnsweredQuestionOutcome
 import org.oppia.app.model.EphemeralQuestion
 import org.oppia.app.model.EphemeralState
@@ -9,6 +10,7 @@ import org.oppia.app.model.InteractionObject
 import org.oppia.app.model.PendingState
 import org.oppia.app.model.Question
 import org.oppia.app.model.SubtitledHtml
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProvider
 import org.oppia.util.data.DataProviders
@@ -31,6 +33,8 @@ private const val EMPTY_QUESTIONS_LIST_DATA_PROVIDER_ID = "EmptyQuestionsListDat
 class QuestionAssessmentProgressController @Inject constructor(private val dataProviders: DataProviders) {
   private var inProgressQuestionsListDataProvider: DataProvider<List<Question>> = createEmptyQuestionsListDataProvider()
   private var playing: Boolean = false
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
   private val ephemeralQuestionDataSource: DataProvider<EphemeralQuestion> by lazy {
     dataProviders.transformAsync(
       EPHEMERAL_QUESTION_DATA_PROVIDER_ID, inProgressQuestionsListDataProvider, this::computeEphemeralQuestionStateAsync
@@ -150,6 +154,7 @@ class QuestionAssessmentProgressController @Inject constructor(private val dataP
     return try {
       AsyncResult.success(computeEphemeralQuestionState(questionsList))
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       AsyncResult.failed(e)
     }
   }

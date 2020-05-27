@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import androidx.exifinterface.media.ExifInterface
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.Deferred
 import org.oppia.app.model.AppLanguage
 import org.oppia.app.model.AudioLanguage
@@ -19,6 +20,7 @@ import org.oppia.app.model.ProfileDatabase
 import org.oppia.app.model.ProfileId
 import org.oppia.app.model.StoryTextSize
 import org.oppia.data.persistence.PersistentCacheStore
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProvider
 import org.oppia.util.data.DataProviders
@@ -60,6 +62,8 @@ class ProfileManagementController @Inject constructor(
 ) {
   private var currentProfileId: Int = -1
   private val profileDataStore = cacheStoreFactory.create("profile_database", ProfileDatabase.getDefaultInstance())
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /** Indicates that the given name was is not unique. */
   class ProfileNameNotUniqueException(msg: String) : Exception(msg)
@@ -583,6 +587,7 @@ class ProfileManagementController @Inject constructor(
           .compress(Bitmap.CompressFormat.PNG, /* quality= */ 100, fos)
       }
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       logger.e("ProfileManagementController", "Failed to store user submitted avatar image", e)
       return null
     }

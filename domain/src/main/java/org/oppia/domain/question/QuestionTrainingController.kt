@@ -2,7 +2,9 @@ package org.oppia.domain.question
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.oppia.app.model.Question
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.topic.TopicController
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProvider
@@ -23,8 +25,10 @@ class QuestionTrainingController @Inject constructor(
   @QuestionCountPerTrainingSession private val questionCountPerSession: Int,
   @QuestionTrainingSeed private val questionTrainingSeed: Long
 ) {
-
   private val random = Random(questionTrainingSeed)
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
+  private val crashlyticsWrapper = CrashlyticsWrapper()
+
   /**
    * Begins a question training session given a list of skill Ids and a total number of questions.
    *
@@ -48,6 +52,7 @@ class QuestionTrainingController @Inject constructor(
       ) { it }
       dataProviders.convertToLiveData(erasedDataProvider)
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -91,6 +96,7 @@ class QuestionTrainingController @Inject constructor(
       questionAssessmentProgressController.finishQuestionTrainingSession()
       MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       MutableLiveData(AsyncResult.failed(e))
     }
   }

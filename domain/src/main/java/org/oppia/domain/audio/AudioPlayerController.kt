@@ -6,11 +6,13 @@ import android.os.Build
 import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
 import org.oppia.util.caching.AssetRepository
 import org.oppia.util.caching.CacheAssetsLocally
 import org.oppia.util.data.AsyncResult
@@ -88,6 +90,8 @@ class AudioPlayerController @Inject constructor(
   private var completed = false
 
   private val SEEKBAR_UPDATE_FREQUENCY = TimeUnit.SECONDS.toMillis(1)
+  private val crashlyticsWrapper = CrashlyticsWrapper()
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
 
   /**
    * Loads audio source from a URL and return LiveData to send updates.
@@ -180,6 +184,7 @@ class AudioPlayerController @Inject constructor(
       }
       mediaPlayer.prepareAsync()
     } catch (e: IOException) {
+      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       logger.e("AudioPlayerController", "Failed to set data source for media player", e)
     }
     playProgress?.value = AsyncResult.pending()
