@@ -20,7 +20,7 @@ import org.oppia.app.model.ProfileDatabase
 import org.oppia.app.model.ProfileId
 import org.oppia.app.model.StoryTextSize
 import org.oppia.data.persistence.PersistentCacheStore
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProvider
 import org.oppia.util.data.DataProviders

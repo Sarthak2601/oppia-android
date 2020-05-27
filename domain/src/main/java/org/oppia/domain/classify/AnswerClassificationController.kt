@@ -5,7 +5,7 @@ import org.oppia.app.model.AnswerGroup
 import org.oppia.app.model.Interaction
 import org.oppia.app.model.InteractionObject
 import org.oppia.app.model.Outcome
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import javax.inject.Inject
 
 // TODO(#59): Restrict the visibility of this class to only other controllers.

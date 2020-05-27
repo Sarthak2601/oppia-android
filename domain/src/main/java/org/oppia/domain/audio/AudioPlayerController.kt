@@ -12,7 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.util.caching.AssetRepository
 import org.oppia.util.caching.CacheAssetsLocally
 import org.oppia.util.data.AsyncResult

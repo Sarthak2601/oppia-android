@@ -19,7 +19,7 @@ import org.oppia.app.home.HomeActivity
 import org.oppia.app.model.ProfileId
 import org.oppia.app.utility.LifecycleSafeTimerFactory
 import org.oppia.app.viewmodel.ViewModelProvider
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.profile.ProfileManagementController
 import org.oppia.util.statusbar.StatusBarColor
 import javax.inject.Inject

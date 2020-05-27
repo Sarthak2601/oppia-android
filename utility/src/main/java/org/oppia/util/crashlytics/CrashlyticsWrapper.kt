@@ -1,4 +1,4 @@
-package org.oppia.domain.firebase.crashlytics
+package org.oppia.util.crashlytics
 
 import java.lang.Exception
 import com.google.firebase.crashlytics.FirebaseCrashlytics

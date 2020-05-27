@@ -29,7 +29,7 @@ import org.oppia.app.model.TranslationMapping
 import org.oppia.app.model.Voiceover
 import org.oppia.app.model.VoiceoverMapping
 import org.oppia.domain.exploration.TEST_EXPLORATION_ID_30
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.util.JsonAssetRetriever
 import org.oppia.domain.util.StateRetriever
 import org.oppia.util.data.AsyncResult

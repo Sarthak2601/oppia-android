@@ -16,7 +16,7 @@ import org.oppia.app.model.State
 import org.oppia.app.model.SubtitledHtml
 import org.oppia.app.model.UserAnswer
 import org.oppia.domain.classify.AnswerClassificationController
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.util.data.AsyncDataSubscriptionManager
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProviders

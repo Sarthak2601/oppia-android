@@ -4,7 +4,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.json.JSONObject
 import org.oppia.app.model.Exploration
 import org.oppia.app.model.State
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.topic.FRACTIONS_EXPLORATION_ID_0
 import org.oppia.domain.topic.FRACTIONS_EXPLORATION_ID_1
 import org.oppia.domain.topic.RATIOS_EXPLORATION_ID_0

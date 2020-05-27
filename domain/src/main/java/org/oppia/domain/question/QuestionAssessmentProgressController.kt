@@ -10,7 +10,7 @@ import org.oppia.app.model.InteractionObject
 import org.oppia.app.model.PendingState
 import org.oppia.app.model.Question
 import org.oppia.app.model.SubtitledHtml
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.util.data.AsyncResult
 import org.oppia.util.data.DataProvider
 import org.oppia.util.data.DataProviders

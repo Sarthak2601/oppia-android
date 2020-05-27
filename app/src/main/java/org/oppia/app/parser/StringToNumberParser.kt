@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.annotation.StringRes
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import org.oppia.app.R
-import org.oppia.domain.firebase.crashlytics.CrashlyticsWrapper
+import org.oppia.util.crashlytics.CrashlyticsWrapper
 import org.oppia.domain.util.normalizeWhitespace
 
 /** This class contains methods that help to parse string to number, check realtime and submit time errors. */
