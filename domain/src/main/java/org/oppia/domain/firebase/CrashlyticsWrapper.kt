@@ -4,11 +4,10 @@ import java.lang.Exception
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 
 /** Controller for providing custom crash reporting to Firebase Crashlytics */
-class CrashlyticsController {
+class CrashlyticsWrapper {
 
   /** Logs a custom non-fatal exception to Firebase Crashlytics */
   fun logException(exception: Exception, logMessage: String, firebaseCrashlytics: FirebaseCrashlytics ) {
-    logMessage(logMessage, firebaseCrashlytics)
     firebaseCrashlytics.recordException(exception)
   }
 
