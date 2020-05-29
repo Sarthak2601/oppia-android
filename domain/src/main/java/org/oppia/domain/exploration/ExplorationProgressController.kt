@@ -61,7 +61,6 @@ class ExplorationProgressController @Inject constructor(
     dataProviders.createInMemoryDataProviderAsync(CURRENT_STATE_DATA_PROVIDER_ID, this::retrieveCurrentStateAsync)
   private val explorationProgress = ExplorationProgress()
   private val explorationProgressLock = ReentrantLock()
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /** Resets this controller to begin playing the specified [Exploration]. */
@@ -151,7 +150,7 @@ class ExplorationProgressController @Inject constructor(
         return MutableLiveData(AsyncResult.success(answerOutcome))
       }
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       return MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -187,7 +186,7 @@ class ExplorationProgressController @Inject constructor(
         return MutableLiveData(AsyncResult.success(hint))
       }
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       return MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -224,7 +223,7 @@ class ExplorationProgressController @Inject constructor(
         return MutableLiveData(AsyncResult.success(solution))
       }
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       return MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -256,7 +255,7 @@ class ExplorationProgressController @Inject constructor(
       }
       return MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       return MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -292,7 +291,7 @@ class ExplorationProgressController @Inject constructor(
       }
       return MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       return MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -324,7 +323,7 @@ class ExplorationProgressController @Inject constructor(
     return try {
       retrieveCurrentStateWithinCacheAsync()
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       AsyncResult.failed(e)
     }
   }
@@ -355,7 +354,7 @@ class ExplorationProgressController @Inject constructor(
             finishLoadExploration(exploration!!, explorationProgress)
             AsyncResult.success(explorationProgress.stateDeck.getCurrentEphemeralState())
           } catch (e: Exception) {
-            crashlyticsWrapper.logException(e, firebaseCrashlytics)
+            crashlyticsWrapper.logException(e)
             AsyncResult.failed<EphemeralState>(e)
           }
         }

@@ -62,7 +62,6 @@ class ProfileManagementController @Inject constructor(
 ) {
   private var currentProfileId: Int = -1
   private val profileDataStore = cacheStoreFactory.create("profile_database", ProfileDatabase.getDefaultInstance())
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /** Indicates that the given name was is not unique. */
@@ -587,7 +586,7 @@ class ProfileManagementController @Inject constructor(
           .compress(Bitmap.CompressFormat.PNG, /* quality= */ 100, fos)
       }
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       logger.e("ProfileManagementController", "Failed to store user submitted avatar image", e)
       return null
     }

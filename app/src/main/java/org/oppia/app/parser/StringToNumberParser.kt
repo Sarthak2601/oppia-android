@@ -10,7 +10,6 @@ import org.oppia.domain.util.normalizeWhitespace
 /** This class contains methods that help to parse string to number, check realtime and submit time errors. */
 class StringToNumberParser {
   private val validCharsRegex = """^[\d\s.-]+$""".toRegex()
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /**
@@ -48,7 +47,7 @@ class StringToNumberParser {
       text.toDouble()
       NumericInputParsingError.VALID
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       NumericInputParsingError.INVALID_FORMAT
     }
   }

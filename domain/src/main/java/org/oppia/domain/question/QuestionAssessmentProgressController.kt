@@ -33,7 +33,6 @@ private const val EMPTY_QUESTIONS_LIST_DATA_PROVIDER_ID = "EmptyQuestionsListDat
 class QuestionAssessmentProgressController @Inject constructor(private val dataProviders: DataProviders) {
   private var inProgressQuestionsListDataProvider: DataProvider<List<Question>> = createEmptyQuestionsListDataProvider()
   private var playing: Boolean = false
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
   private val ephemeralQuestionDataSource: DataProvider<EphemeralQuestion> by lazy {
     dataProviders.transformAsync(
@@ -154,7 +153,7 @@ class QuestionAssessmentProgressController @Inject constructor(private val dataP
     return try {
       AsyncResult.success(computeEphemeralQuestionState(questionsList))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       AsyncResult.failed(e)
     }
   }

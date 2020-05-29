@@ -184,7 +184,7 @@ class AudioPlayerController @Inject constructor(
       }
       mediaPlayer.prepareAsync()
     } catch (e: IOException) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       logger.e("AudioPlayerController", "Failed to set data source for media player", e)
     }
     playProgress?.value = AsyncResult.pending()

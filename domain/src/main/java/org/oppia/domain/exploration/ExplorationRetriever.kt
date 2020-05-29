@@ -29,7 +29,6 @@ class ExplorationRetriever @Inject constructor(
   private val jsonAssetRetriever: JsonAssetRetriever,
   private val stateRetriever: StateRetriever
 ) {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   // TODO(#169): Force callers of this method on a background thread.
@@ -63,7 +62,7 @@ class ExplorationRetriever @Inject constructor(
         .putAllStates(createStatesFromJsonObject(explorationObject.getJSONObject("states")))
         .build()
     } catch (e: IOException) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       throw(Throwable("Failed to load and parse the json asset file. %s", e))
     }
   }

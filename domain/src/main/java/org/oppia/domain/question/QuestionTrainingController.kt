@@ -26,7 +26,6 @@ class QuestionTrainingController @Inject constructor(
   @QuestionTrainingSeed private val questionTrainingSeed: Long
 ) {
   private val random = Random(questionTrainingSeed)
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /**
@@ -52,7 +51,7 @@ class QuestionTrainingController @Inject constructor(
       ) { it }
       dataProviders.convertToLiveData(erasedDataProvider)
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -96,7 +95,7 @@ class QuestionTrainingController @Inject constructor(
       questionAssessmentProgressController.finishQuestionTrainingSession()
       MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       MutableLiveData(AsyncResult.failed(e))
     }
   }

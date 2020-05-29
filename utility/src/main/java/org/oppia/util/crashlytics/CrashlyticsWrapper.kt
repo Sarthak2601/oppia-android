@@ -2,12 +2,15 @@ package org.oppia.util.crashlytics
 
 import java.lang.Exception
 import com.google.firebase.crashlytics.FirebaseCrashlytics
+import javax.inject.Inject
 
 /** Controller for providing custom crash reporting to Firebase Crashlytics */
-class CrashlyticsWrapper {
 
+class CrashlyticsWrapper @Inject constructor(){
+
+  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   /** Logs a custom non-fatal exception to Firebase Crashlytics */
-  fun logException(exception: Exception, firebaseCrashlytics: FirebaseCrashlytics ) {
+  fun logException(exception: Exception) {
     firebaseCrashlytics.recordException(exception)
   }
 

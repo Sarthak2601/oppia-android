@@ -108,7 +108,6 @@ class TopicController @Inject constructor(
   private val stateRetriever: StateRetriever,
   private val storyProgressController: StoryProgressController
 ) {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /**
@@ -204,7 +203,7 @@ class TopicController @Inject constructor(
       try {
         AsyncResult.success(retrieveReviewCard(topicId, subtopicId))
       } catch (e: Exception) {
-        crashlyticsWrapper.logException(e, firebaseCrashlytics)
+        crashlyticsWrapper.logException(e)
         AsyncResult.failed<RevisionCard>(e)
       }
     )

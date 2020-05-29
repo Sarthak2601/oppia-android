@@ -17,8 +17,6 @@ import javax.inject.Singleton
 @Singleton
 class OppiaClock @Inject constructor() {
   private var testTimeMs: Long? = null
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
-  private val crashlyticsWrapper = CrashlyticsWrapper()
 
   fun getElapsedRealtimeMs(): Long {
     return SystemClock.elapsedRealtime()
@@ -39,7 +37,6 @@ class OppiaClock @Inject constructor() {
       date = format.parse(dtStart)
       currentTimeMsNew = getLocalToUTCDate(date)
     } catch (e: ParseException) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
       e.printStackTrace()
     }
     testTimeMs = currentTimeMsNew

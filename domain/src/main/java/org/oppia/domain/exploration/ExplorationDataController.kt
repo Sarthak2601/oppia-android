@@ -23,7 +23,6 @@ class ExplorationDataController @Inject constructor(
   private val explorationRetriever: ExplorationRetriever,
   private val dataProviders: DataProviders
 ) {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /** Returns an [Exploration] given an ID. */
@@ -50,7 +49,7 @@ class ExplorationDataController @Inject constructor(
       explorationProgressController.beginExplorationAsync(explorationId)
       MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -64,7 +63,7 @@ class ExplorationDataController @Inject constructor(
       explorationProgressController.finishExplorationAsync()
       MutableLiveData(AsyncResult.success<Any?>(null))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       MutableLiveData(AsyncResult.failed(e))
     }
   }
@@ -74,7 +73,7 @@ class ExplorationDataController @Inject constructor(
     return try {
       AsyncResult.success(explorationRetriever.loadExploration(explorationId))
     } catch (e: Exception) {
-      crashlyticsWrapper.logException(e, firebaseCrashlytics)
+      crashlyticsWrapper.logException(e)
       AsyncResult.failed(e)
     }
   }

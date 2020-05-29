@@ -19,7 +19,6 @@ import javax.inject.Inject
 class AnswerClassificationController @Inject constructor(
   private val interactionClassifiers: Map<String, @JvmSuppressWildcards InteractionClassifier>
 ) {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
   /**
    * Classifies the specified answer in the context of the specified [Interaction] and returns the [Outcome] that best
@@ -52,7 +51,7 @@ class AnswerClassificationController @Inject constructor(
             return answerGroup.outcome
           }
         } catch (e: Exception) {
-          crashlyticsWrapper.logException(e, firebaseCrashlytics)
+          crashlyticsWrapper.logException(e)
           throw IllegalStateException("Failed when classifying answer $answer for interaction $interactionId", e)
         }
       }

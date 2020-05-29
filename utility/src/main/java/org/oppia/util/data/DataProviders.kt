@@ -27,7 +27,6 @@ class DataProviders @Inject constructor(
   @BackgroundDispatcher private val backgroundDispatcher: CoroutineDispatcher,
   private val asyncDataSubscriptionManager: AsyncDataSubscriptionManager
 ) {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   /**
@@ -52,7 +51,7 @@ class DataProviders @Inject constructor(
         return try {
           dataProvider.retrieveData().transform(function)
         } catch (t: Throwable) {
-          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
+          crashlyticsWrapper.logException(Exception(t))
           AsyncResult.failed(t)
         }
       }
@@ -108,7 +107,7 @@ class DataProviders @Inject constructor(
         return try {
           dataProvider1.retrieveData().combineWith(dataProvider2.retrieveData(), function)
         } catch (t: Throwable) {
-          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
+          crashlyticsWrapper.logException(Exception(t))
           AsyncResult.failed(t)
         }
       }
@@ -158,7 +157,7 @@ class DataProviders @Inject constructor(
         return try {
           AsyncResult.success(loadFromMemory())
         } catch (t: Throwable) {
-          crashlyticsWrapper.logException(Exception(t), firebaseCrashlytics)
+          crashlyticsWrapper.logException(Exception(t))
           AsyncResult.failed(t)
         }
       }

@@ -39,7 +39,6 @@ class PinPasswordActivityPresenter @Inject constructor(
   }
   private var profileId = -1
   private lateinit var alertDialog: AlertDialog
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   @ExperimentalCoroutinesApi
@@ -134,7 +133,7 @@ class PinPasswordActivityPresenter @Inject constructor(
         try {
           activity.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + activity.packageName)))
         } catch (e: ActivityNotFoundException) {
-          crashlyticsWrapper.logException(e, firebaseCrashlytics)
+          crashlyticsWrapper.logException(e)
           activity.startActivity(
             Intent(
               Intent.ACTION_VIEW,

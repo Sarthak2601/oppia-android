@@ -13,7 +13,6 @@ import java.io.InputStream
 
 /** Decodes an SVG internal representation from an {@link InputStream}. */
 class SvgDecoder : ResourceDecoder<InputStream?, SVG?> {
-  private val firebaseCrashlytics = FirebaseCrashlytics.getInstance()
   private val crashlyticsWrapper = CrashlyticsWrapper()
 
   override fun handles(source: InputStream, options: Options): Boolean {
@@ -29,7 +28,7 @@ class SvgDecoder : ResourceDecoder<InputStream?, SVG?> {
     return try {
       SimpleResource(source.use { SVG.getFromInputStream(it) })
     } catch (ex: SVGParseException) {
-      crashlyticsWrapper.logException(ex, firebaseCrashlytics)
+      crashlyticsWrapper.logException(ex)
       throw IOException("Cannot load SVG from stream", ex)
     }
   }
